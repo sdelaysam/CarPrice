@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  */
 
 @Serializable
-class PricePrediction(
+data class PricePrediction(
     @SerialName("currency")
     val currency: String,
     @SerialName("result")

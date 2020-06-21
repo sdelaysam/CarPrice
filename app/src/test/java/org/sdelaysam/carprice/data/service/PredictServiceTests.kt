@@ -10,7 +10,7 @@ import org.koin.test.inject
  * @author sdelaysam
  */
 
-class PredictServiceTest : BaseServiceTest() {
+class PredictServiceTests : BaseServiceTest() {
 
     private val predictService: PredictService by inject()
 
