@@ -7,7 +7,8 @@ import io.reactivex.Scheduler
  * @author sdelaysam
  */
 
-object Schedulers {
+object RxSchedulers {
     lateinit var main: Scheduler
     lateinit var network: Scheduler
+    lateinit var computation: Scheduler
 }

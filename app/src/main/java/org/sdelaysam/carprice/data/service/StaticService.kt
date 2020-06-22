@@ -13,11 +13,11 @@ import retrofit2.http.GET
 
 interface StaticService {
     @GET("makes/")
-    fun getMakes(): Single<Array<Make>>
+    fun getMakes(): Single<List<Make>>
 
     @GET("models/")
-    fun getModels(): Single<Array<Model>>
+    fun getModels(): Single<List<Model>>
 
     @GET("submodels/")
-    fun getSubModels(): Single<Array<SubModel>>
+    fun getSubModels(): Single<List<SubModel>>
 }

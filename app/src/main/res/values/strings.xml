@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Car Price</string>
+    <string name="select_make">Select Make</string>
+    <string name="select_model">Select Model</string>
+    <string name="select_submodel">Select Submodel</string>
+    <string name="all_models">All Models</string>
+    <string name="all_submodels">All Submodels</string>
+    <string name="connection_error">Please check your internet connection.</string>
+    <string name="unknown_error">Something went wrong. Try again later.</string>
 </resources>

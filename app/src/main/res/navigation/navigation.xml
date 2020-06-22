@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/makeList">
+
+    <fragment
+        android:id="@+id/makeList"
+        android:name="org.sdelaysam.carprice.ui.make.MakeListFragment"
+        android:label="@string/select_make"
+        tools:layout="@layout/fragment_list" />
+
+    <fragment
+        android:id="@+id/modelList"
+        android:name="org.sdelaysam.carprice.ui.model.ModelListFragment"
+        android:label="@string/select_model"
+        tools:layout="@layout/fragment_list">
+        <argument
+            android:name="makeId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/subModelList"
+        android:name="org.sdelaysam.carprice.ui.submodel.SubModelListFragment"
+        android:label="@string/select_submodel"
+        tools:layout="@layout/fragment_list">
+        <argument
+            android:name="makeId"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="modelId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/openModelsList"
+        app:destination="@id/modelList" />
+
+    <action
+        android:id="@+id/openSubModelsList"
+        app:destination="@id/subModelList" />
+
+</navigation>

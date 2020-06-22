@@ -1,5 +1,6 @@
 package org.sdelaysam.carprice.data.db
 
+import androidx.paging.DataSource
 import androidx.room.*
 import io.reactivex.Observable
 import org.sdelaysam.carprice.data.api.SubModel
@@ -19,7 +20,25 @@ interface SubModelDao {
             WHERE sm.makeId=:makeId AND msm.modelId=:modelId AND sm.active=1 
             ORDER BY sm.name ASC 
     """)
+    fun getPagedDataSource(makeId: String, modelId: String): DataSource.Factory<Int, SubModel>
+
+    @Query("""
+       SELECT sm.* FROM ${AppDatabase.TableSubModel} sm 
+            INNER JOIN ${AppDatabase.TableModelSubModel} msm ON sm.id=msm.subModelId 
+            WHERE sm.makeId=:makeId AND msm.modelId=:modelId AND sm.active=1 
+            ORDER BY sm.name ASC 
+    """)
     fun observeSubModels(makeId: String, modelId: String): Observable<List<SubModel>>
+
+    @Query("""
+       SELECT COUNT(*) FROM ${AppDatabase.TableSubModel} sm 
+            INNER JOIN ${AppDatabase.TableModelSubModel} msm ON sm.id=msm.subModelId 
+            WHERE sm.makeId=:makeId AND msm.modelId=:modelId AND sm.active=1 
+    """)
+    fun observeSubModelsCount(makeId: String, modelId: String): Observable<Int>
+
+    @Query("SELECT COUNT(*) FROM ${AppDatabase.TableSubModel} WHERE active=1")
+    fun getSubModelsCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSubModels(subModels: List<SubModel>)

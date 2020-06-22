@@ -8,7 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import org.sdelaysam.carprice.data.model.ServiceType
 import org.sdelaysam.carprice.data.model.baseUrl
-import org.sdelaysam.carprice.util.rx.Schedulers
+import org.sdelaysam.carprice.util.rx.RxSchedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import timber.log.Timber
@@ -27,7 +27,7 @@ val networkModule = module {
         Retrofit.Builder()
             .baseUrl(serviceType.baseUrl)
             .client(client)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.main))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(RxSchedulers.network))
             .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
             .build()
     }
