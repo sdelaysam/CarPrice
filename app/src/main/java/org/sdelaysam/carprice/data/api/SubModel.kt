@@ -39,6 +39,11 @@ data class SubModel(
     val updatedAt: DateTime? = null
 )
 
+val EmptySubModel = SubModel("_", null, emptyList(), "_", false)
+
+val SubModel.isEmpty: Boolean
+    get() = this === EmptySubModel
+
 fun SubModel.toModelSubModels(): List<ModelSubModel> {
     return modelIds.map { ModelSubModel(modelId = it, subModelId = id) }
 }

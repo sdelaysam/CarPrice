@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import org.sdelaysam.carprice.data.api.Model
 
@@ -27,6 +28,12 @@ interface ModelDao {
 
     @Query("SELECT COUNT(*) FROM ${AppDatabase.TableModel} WHERE active=1")
     fun getModelsCount(): Int
+
+    @Query("SELECT * FROM ${AppDatabase.TableModel} WHERE id=:modelId")
+    fun getModel(modelId: String): Maybe<Model>
+
+    @Query("SELECT * FROM ${AppDatabase.TableModel} WHERE id=:modelId")
+    fun observeModel(modelId: String): Observable<Model>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertModels(models: List<Model>)

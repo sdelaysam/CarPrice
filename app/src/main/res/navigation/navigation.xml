@@ -3,7 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/makeList">
+    app:startDestination="@id/splash">
+
+    <fragment
+        android:id="@+id/splash"
+        android:name="org.sdelaysam.carprice.ui.splash.SplashFragment"
+        android:label=""
+        tools:layout="@layout/fragment_splash" />
+
+    <fragment
+        android:id="@+id/start"
+        android:name="org.sdelaysam.carprice.ui.start.StartFragment"
+        android:label=""
+        tools:layout="@layout/fragment_start" />
+
+    <fragment
+        android:id="@+id/price"
+        android:name="org.sdelaysam.carprice.ui.price.PriceFragment"
+        android:label=""
+        tools:layout="@layout/fragment_price" />
 
     <fragment
         android:id="@+id/makeList"
@@ -36,6 +54,34 @@
             app:argType="string"
             app:nullable="false" />
     </fragment>
+
+    <action
+        android:id="@+id/splashToStart"
+        app:destination="@id/start"
+        app:popUpTo="@id/splash"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/splashToPrice"
+        app:destination="@id/price"
+        app:popUpTo="@id/splash"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/openStart"
+        app:destination="@id/start"
+        app:popUpTo="@id/price"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/openPrice"
+        app:destination="@id/price"
+        app:popUpTo="@id/start"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/openMakeList"
+        app:destination="@id/makeList" />
 
     <action
         android:id="@+id/openModelsList"

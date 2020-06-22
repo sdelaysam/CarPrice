@@ -1,18 +1,16 @@
 package org.sdelaysam.carprice.ui.model
 
 import androidx.paging.DataSource
-import io.reactivex.Observable
 import org.sdelaysam.carprice.R
 import org.sdelaysam.carprice.data.api.Model
 import org.sdelaysam.carprice.data.interactor.ModelInteractor
+import org.sdelaysam.carprice.data.interactor.PriceInteractor
 import org.sdelaysam.carprice.navigation.AppNavigation
 import org.sdelaysam.carprice.ui.common.BaseListViewModel
 import org.sdelaysam.carprice.ui.common.ButtonItemLayout
 import org.sdelaysam.carprice.ui.common.TextItemLayout
-import org.sdelaysam.carprice.util.ui.AlphabeticLayout
 import org.sdelaysam.carprice.util.ui.DataLoader
 import org.sdelaysam.carprice.util.ui.IdentifiableLayout
-import java.util.*
 
 /**
  * Created on 6/21/20.
@@ -22,6 +20,7 @@ import java.util.*
 class ModelListViewModel(
     private val makeId: String,
     private val modelInteractor: ModelInteractor,
+    private val priceInteractor: PriceInteractor,
     private val navigation: AppNavigation
 ) : BaseListViewModel() {
 
@@ -44,5 +43,8 @@ class ModelListViewModel(
         navigation.openSubModelsList(makeId, model.id)
     }
 
-    private fun onAllModelsSelected() {}
+    private fun onAllModelsSelected() {
+        priceInteractor.saveSelection(makeId, null, null)
+        navigation.openPrice(false)
+    }
 }

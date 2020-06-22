@@ -5,6 +5,7 @@ import io.reactivex.Completable
 import org.sdelaysam.carprice.data.api.Make
 import org.sdelaysam.carprice.data.db.MakeDao
 import org.sdelaysam.carprice.data.service.StaticService
+import org.sdelaysam.carprice.data.storage.AppStorage
 import org.sdelaysam.carprice.util.ui.DataLoaderDelegate
 
 /**

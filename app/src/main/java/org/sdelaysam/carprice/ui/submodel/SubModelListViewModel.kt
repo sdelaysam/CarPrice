@@ -3,6 +3,7 @@ package org.sdelaysam.carprice.ui.submodel
 import androidx.paging.DataSource
 import org.sdelaysam.carprice.R
 import org.sdelaysam.carprice.data.api.SubModel
+import org.sdelaysam.carprice.data.interactor.PriceInteractor
 import org.sdelaysam.carprice.data.interactor.SubModelInteractor
 import org.sdelaysam.carprice.navigation.AppNavigation
 import org.sdelaysam.carprice.ui.common.BaseListViewModel
@@ -20,6 +21,7 @@ class SubModelListViewModel(
     private val makeId: String,
     private val modelId: String,
     private val subModelInteractor: SubModelInteractor,
+    private val priceInteractor: PriceInteractor,
     private val navigation: AppNavigation
 ) : BaseListViewModel() {
 
@@ -39,8 +41,12 @@ class SubModelListViewModel(
     }
 
     private fun onSubModelSelected(subModel: SubModel) {
-
+        priceInteractor.saveSelection(makeId, modelId, subModel.id)
+        navigation.openPrice(false)
     }
 
-    private fun onAllSubModelsSelected() {}
+    private fun onAllSubModelsSelected() {
+        priceInteractor.saveSelection(makeId, modelId, null)
+        navigation.openPrice(false)
+    }
 }

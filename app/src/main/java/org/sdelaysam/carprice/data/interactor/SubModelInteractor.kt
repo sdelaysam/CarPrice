@@ -2,7 +2,6 @@ package org.sdelaysam.carprice.data.interactor
 
 import androidx.paging.DataSource
 import io.reactivex.Completable
-import io.reactivex.Observable
 import org.sdelaysam.carprice.data.api.SubModel
 import org.sdelaysam.carprice.data.db.SubModelDao
 import org.sdelaysam.carprice.data.service.StaticService
@@ -39,5 +38,4 @@ class DefaultSubModelInteractor(
             }
             .ignoreElement()
     }
-
 }
