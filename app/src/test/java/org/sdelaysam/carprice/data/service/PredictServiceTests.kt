@@ -16,7 +16,7 @@ class PredictServiceTests : BaseServiceTest() {
 
     @Test
     fun getPriceSucceed() {
-        val observer = predictService.getPrice(makeId = "1", year = "2020").test()
+        val observer = predictService.getPrice(makeId = "1", year = 2020).test()
         assertTrue(observer.awaitTerminalEvent())
         observer.assertNoErrors()
         observer.values().first().let {
