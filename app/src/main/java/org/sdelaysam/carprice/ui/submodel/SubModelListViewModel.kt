@@ -41,12 +41,12 @@ class SubModelListViewModel(
     }
 
     private fun onSubModelSelected(subModel: SubModel) {
-        priceInteractor.saveSelection(makeId, modelId, subModel.id)
+        priceInteractor.selectCarData(makeId, modelId, subModel.id)
         navigation.openPrice(false)
     }
 
     private fun onAllSubModelsSelected() {
-        priceInteractor.saveSelection(makeId, modelId, null)
+        priceInteractor.selectCarData(makeId, modelId, null)
         navigation.openPrice(false)
     }
 }

@@ -21,10 +21,9 @@ class DefaultSplashInteractor(
 
     override fun hasCarSelected(): Single<Boolean> {
         val makeId = appStorage.makeId ?: return Single.just(false)
-        return makeDao.getMake(makeId)
+        return makeDao.hasMake(makeId)
             .subscribeOn(RxSchedulers.computation)
-            .isEmpty
-            .map { !it }
+            .map { it > 0 }
     }
 
 }

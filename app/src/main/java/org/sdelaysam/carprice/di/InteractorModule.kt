@@ -13,5 +13,5 @@ val interactorModule = module {
     single<MakeInteractor> { DefaultMakeInteractor(get(), get()) }
     single<ModelInteractor> { DefaultModelInteractor(get(), get()) }
     single<SubModelInteractor> { DefaultSubModelInteractor(get(), get()) }
-    single<PriceInteractor> { DefaultPriceInteractor(get(), get(), get(), get()) }
+    single<PriceInteractor> { DefaultPriceInteractor(get(), get(), get()) }
 }

@@ -22,8 +22,8 @@ class DefaultMakeInteractor(
     private val makeDao: MakeDao
 ): MakeInteractor {
 
-    override val localItemsCount: Int
-        get() = makeDao.getMakesCount()
+    override val hasLocalData: Boolean
+        get() = makeDao.getMakesCount() > 0
 
     override fun getPagedDataSource(): DataSource.Factory<Int, Make> {
         return makeDao.getPagedDataSource()

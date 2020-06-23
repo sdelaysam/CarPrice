@@ -1,10 +1,9 @@
-package org.sdelaysam.arch.util
+package org.sdelaysam.carprice.util.rx
 
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import org.sdelaysam.carprice.util.rx.UiSubject
+import org.sdelaysam.arch.util.BufferSingleValueWhileIdleOperator
+import org.sdelaysam.arch.util.BufferWhileIdleOperator
 
 /**
  * Created on 4/13/20.
@@ -24,7 +23,7 @@ fun <T> Observable<T>.bufferWhile(
     )
 }
 
-fun Completable.catchErrors(uiSubject: UiSubject<Throwable>) = onErrorComplete {
+fun Completable.catchErrors(uiSubject: UiSubject<Throwable>): Completable = onErrorComplete {
     uiSubject.accept(it)
     true
 }

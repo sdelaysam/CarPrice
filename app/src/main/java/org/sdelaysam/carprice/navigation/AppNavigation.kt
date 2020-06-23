@@ -1,9 +1,14 @@
 package org.sdelaysam.carprice.navigation
 
+import androidx.navigation.NavController
+import io.reactivex.disposables.Disposable
 import org.sdelaysam.carprice.R
 import org.sdelaysam.carprice.ui.model.ModelListFragmentDirections
 import org.sdelaysam.carprice.ui.submodel.SubModelListFragmentDirections
+import org.sdelaysam.carprice.util.app.AppState
+import org.sdelaysam.carprice.util.app.AppStateProvider
 import org.sdelaysam.carprice.util.navigation.NavControllerProvider
+import org.sdelaysam.carprice.util.rx.UiSubject
 
 /**
  * Created on 6/21/20.
@@ -16,44 +21,88 @@ interface AppNavigation {
     fun openMakeList()
     fun openModelsList(makeId: String)
     fun openSubModelsList(makeId: String, modelId: String)
+    fun openYearList()
+    fun back()
 }
 
+typealias NavigateAction = (NavController) -> Unit
+
 class DefaultAppNavigation(
+    appStateProvider: AppStateProvider,
     private val navControllerProvider: NavControllerProvider
 ): AppNavigation {
 
+    private val navigateSubject: UiSubject<NavigateAction>
+    private val disposable: Disposable
+
+    init {
+        val pausedObservable = appStateProvider.observeState()
+            .map { it == AppState.Background }
+            .distinctUntilChanged()
+        navigateSubject = UiSubject(pausedObservable, bufferSize = null)
+        disposable = navigateSubject.observable
+            .subscribe { action ->
+                navControllerProvider.navController?.let { action(it) }
+            }
+    }
+
+
     override fun openStart(initial: Boolean) {
-        if (initial) {
-            navControllerProvider.navController
-                ?.navigate(R.id.splashToStart)
-        } else {
-            navControllerProvider.navController
-                ?.navigate(R.id.openStart)
+        post {
+            if (initial) {
+                it.navigate(R.id.splashToStart)
+            } else {
+                it.navigate(R.id.openStart)
+            }
         }
     }
 
     override fun openPrice(initial: Boolean) {
-        if (initial) {
-            navControllerProvider.navController
-                ?.navigate(R.id.splashToPrice)
-        } else {
-            navControllerProvider.navController
-                ?.navigate(R.id.openPrice)
+        post {
+            if (initial) {
+                it.navigate(R.id.splashToPrice)
+            } else {
+                if (it.popBackStack(R.id.start, true)) {
+                    it.navigate(R.id.openPrice)
+                } else if (!it.popBackStack(R.id.price, false)) {
+                    it.navigate(R.id.openPrice)
+                }
+            }
         }
     }
 
     override fun openMakeList() {
-        navControllerProvider.navController
-            ?.navigate(R.id.openMakeList)
+        post {
+            it.navigate(R.id.openMakeList)
+        }
     }
 
     override fun openModelsList(makeId: String) {
-        navControllerProvider.navController
-            ?.navigate(ModelListFragmentDirections.openModelsList(makeId))
+        post {
+            it.navigate(ModelListFragmentDirections.openModelsList(makeId))
+        }
     }
 
     override fun openSubModelsList(makeId: String, modelId: String) {
-        navControllerProvider.navController
-            ?.navigate(SubModelListFragmentDirections.openSubModelsList(makeId, modelId))
+        post {
+            it.navigate(SubModelListFragmentDirections.openSubModelsList(makeId, modelId))
+        }
     }
+
+    override fun openYearList() {
+        post {
+            it.navigate(R.id.openYearList)
+        }
+    }
+
+    override fun back() {
+        post {
+            it.navigateUp()
+        }
+    }
+
+    private fun post(action: NavigateAction) {
+        navigateSubject.accept(action)
+    }
+
 }

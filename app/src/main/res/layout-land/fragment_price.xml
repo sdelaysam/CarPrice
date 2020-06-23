@@ -19,18 +19,25 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/v_guideline_2"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.7" />
+
         <View
             android:id="@+id/card"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/max_margin"
+            android:layout_marginEnd="@dimen/max_margin"
             android:background="@drawable/bg_price_rect"
-            app:layout_constraintBottom_toTopOf="@id/make_label"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1.5"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/v_guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintWidth_percent="0.75" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/price_label"
@@ -89,12 +96,12 @@
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/max_margin"
             android:layout_marginEnd="@dimen/default_margin_half"
             android:text="@string/make"
             app:layout_constraintBottom_toTopOf="@id/model_label"
-            app:layout_constraintEnd_toStartOf="@id/v_guideline"
-            app:layout_constraintTop_toBottomOf="@id/card" />
+            app:layout_constraintEnd_toStartOf="@id/v_guideline_2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/make_button"
@@ -103,7 +110,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
             app:layout_constraintBottom_toBottomOf="@id/make_label"
-            app:layout_constraintStart_toEndOf="@id/v_guideline"
+            app:layout_constraintStart_toEndOf="@id/v_guideline_2"
             app:layout_constraintTop_toTopOf="@id/make_label"
             tools:text="BMW" />
 
@@ -181,10 +188,9 @@
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/another_car"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/v_guideline_2"
+            app:layout_constraintStart_toStartOf="@id/v_guideline_2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-

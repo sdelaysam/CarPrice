@@ -21,8 +21,8 @@ class DefaultModelInteractor(
     private val modelDao: ModelDao
 ): ModelInteractor {
 
-    override val localItemsCount: Int
-        get() = modelDao.getModelsCount()
+    override val hasLocalData: Boolean
+        get() = modelDao.getModelsCount() > 0
 
     override fun getPagedDataSource(makeId: String): DataSource.Factory<Int, Model> {
         return modelDao.getPagedDataSource(makeId)

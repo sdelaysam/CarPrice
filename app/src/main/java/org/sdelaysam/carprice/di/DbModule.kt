@@ -26,4 +26,5 @@ val dbModule = module {
     factory { get<AppDatabase>().makeDao() }
     factory { get<AppDatabase>().modelDao() }
     factory { get<AppDatabase>().subModelDao() }
+    factory { get<AppDatabase>().priceDao() }
 }

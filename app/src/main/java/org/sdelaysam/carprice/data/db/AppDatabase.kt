@@ -16,12 +16,13 @@ import org.sdelaysam.carprice.data.api.SubModel
     Model::class,
     SubModel::class,
     ModelSubModel::class
-], version = AppDatabase.Version)
+],version = AppDatabase.Version)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun makeDao(): MakeDao
     abstract fun modelDao(): ModelDao
     abstract fun subModelDao(): SubModelDao
+    abstract fun priceDao(): PriceDao
 
     companion object {
         const val TableMake = "Make"

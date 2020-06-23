@@ -35,8 +35,3 @@ data class Model(
     @Serializable(with = DateTimeSerializer::class)
     val updatedAt: DateTime? = null
 )
-
-val EmptyModel = Model("_", "_", "_", false)
-
-val Model.isEmpty: Boolean
-    get() = this === EmptyModel

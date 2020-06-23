@@ -21,8 +21,8 @@ class DefaultSubModelInteractor(
     private val subModelDao: SubModelDao
 ): SubModelInteractor {
 
-    override val localItemsCount: Int
-        get() = subModelDao.getSubModelsCount()
+    override val hasLocalData: Boolean
+        get() = subModelDao.getSubModelsCount() > 0
 
     override fun getPagedDataSource(
         makeId: String,

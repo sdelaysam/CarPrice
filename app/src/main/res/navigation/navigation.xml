@@ -55,6 +55,12 @@
             app:nullable="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/yearList"
+        android:name="org.sdelaysam.carprice.ui.year.YearListFragment"
+        android:label="@string/select_year"
+        tools:layout="@layout/fragment_list" />
+
     <action
         android:id="@+id/splashToStart"
         app:destination="@id/start"
@@ -76,8 +82,7 @@
     <action
         android:id="@+id/openPrice"
         app:destination="@id/price"
-        app:popUpTo="@id/start"
-        app:popUpToInclusive="true" />
+        app:launchSingleTop="true" />
 
     <action
         android:id="@+id/openMakeList"
@@ -90,5 +95,9 @@
     <action
         android:id="@+id/openSubModelsList"
         app:destination="@id/subModelList" />
+
+    <action
+        android:id="@+id/openYearList"
+        app:destination="@id/yearList" />
 
 </navigation>

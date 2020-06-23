@@ -14,7 +14,7 @@ interface PredictService {
     @GET("predict/price/")
     fun getPrice(
         @Query("make_id") makeId: String,
-        @Query("year") year: String,
+        @Query("year") year: Int,
         @Query("model_id") modelId: String? = null,
         @Query("submodel_id") subModelId: String? = null
     ): Single<PricePrediction>

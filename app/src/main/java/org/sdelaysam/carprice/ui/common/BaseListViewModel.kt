@@ -3,7 +3,7 @@ package org.sdelaysam.carprice.ui.common
 import androidx.paging.DataSource
 import androidx.paging.toObservable
 import io.reactivex.Observable
-import org.sdelaysam.arch.util.catchErrors
+import org.sdelaysam.carprice.util.rx.catchErrors
 import org.sdelaysam.carprice.data.model.LoadingType
 import org.sdelaysam.carprice.util.rx.RxSchedulers
 import org.sdelaysam.carprice.util.rx.RxViewModel

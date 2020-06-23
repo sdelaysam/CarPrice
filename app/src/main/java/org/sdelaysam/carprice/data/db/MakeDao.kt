@@ -8,6 +8,7 @@ import androidx.room.Query
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.sdelaysam.carprice.data.api.Make
 
 /**
@@ -27,11 +28,8 @@ interface MakeDao {
     @Query("SELECT COUNT(*) FROM ${AppDatabase.TableMake} WHERE active=1")
     fun getMakesCount(): Int
 
-    @Query("SELECT * FROM ${AppDatabase.TableMake} WHERE id=:makeId")
-    fun getMake(makeId: String): Maybe<Make>
-
-    @Query("SELECT * FROM ${AppDatabase.TableMake} WHERE id=:makeId")
-    fun observeMake(makeId: String): Observable<Make>
+    @Query("SELECT COUNT(*) FROM ${AppDatabase.TableMake} WHERE id=:makeId")
+    fun hasMake(makeId: String): Single<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMakes(makes: List<Make>)

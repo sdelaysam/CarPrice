@@ -44,7 +44,7 @@ class ModelListViewModel(
     }
 
     private fun onAllModelsSelected() {
-        priceInteractor.saveSelection(makeId, null, null)
+        priceInteractor.selectCarData(makeId, null, null)
         navigation.openPrice(false)
     }
 }

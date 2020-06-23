@@ -13,7 +13,7 @@ import org.sdelaysam.carprice.util.rx.trackActivity
  */
 
 interface DataLoaderDelegate {
-    val localItemsCount: Int
+    val hasLocalData: Boolean
     fun reload(): Completable
 }
 
@@ -34,7 +34,7 @@ class DataLoader(private val delegate: DataLoaderDelegate) {
             .observeOn(RxSchedulers.computation)
             .map {
                 if (it) {
-                    if (delegate.localItemsCount > 0) {
+                    if (delegate.hasLocalData) {
                         if (isManualRefresh) {
                             LoadingType.RefreshManual
                         } else {

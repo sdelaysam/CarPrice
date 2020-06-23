@@ -1,12 +1,16 @@
 package org.sdelaysam.carprice.data.interactor
 
+import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
-import org.sdelaysam.carprice.data.api.*
-import org.sdelaysam.carprice.data.db.MakeDao
-import org.sdelaysam.carprice.data.db.ModelDao
-import org.sdelaysam.carprice.data.db.SubModelDao
+import io.reactivex.Single
+import org.sdelaysam.carprice.data.api.PricePrediction
+import org.sdelaysam.carprice.data.api.defaultYear
+import org.sdelaysam.carprice.data.db.EmptyPriceView
+import org.sdelaysam.carprice.data.db.PriceDao
+import org.sdelaysam.carprice.data.db.PriceView
+import org.sdelaysam.carprice.data.db.getQuery
+import org.sdelaysam.carprice.data.service.PredictService
 import org.sdelaysam.carprice.data.storage.AppStorage
-import org.sdelaysam.carprice.util.rx.RxSchedulers
 
 /**
  * Created on 6/23/20.
@@ -14,48 +18,56 @@ import org.sdelaysam.carprice.util.rx.RxSchedulers
  */
 
 interface PriceInteractor {
-    fun observeMake(): Observable<Make>
-    fun observeModel(): Observable<Model>
-    fun observeSubModel(): Observable<SubModel>
-    fun saveSelection(makeId: String?, modelId: String?, subModelId: String?)
+    fun refresh(): Single<PricePrediction>
+    fun observePriceView(): Observable<PriceView>
+    fun observeSelectionChanged(): Observable<Unit>
+    fun selectCarData(makeId: String?, modelId: String?, subModelId: String?)
+    fun selectCarYear(year: Int?)
     fun reset()
 }
 
 class DefaultPriceInteractor(
     private val appStorage: AppStorage,
-    private val makeDao: MakeDao,
-    private val modelDao: ModelDao,
-    private val subModelDao: SubModelDao
+    private val predictService: PredictService,
+    private val priceDao: PriceDao
 ): PriceInteractor {
 
-    override fun observeMake(): Observable<Make> {
-        val makeId = appStorage.makeId ?: return Observable.just(EmptyMake)
-        return makeDao.getMake(makeId)
-            .flatMapObservable { makeDao.observeMake(makeId) }
-            .switchIfEmpty(Observable.just(EmptyMake))
-            .subscribeOn(RxSchedulers.computation)
+    private val changedSubject = PublishRelay.create<Unit>()
+
+    override fun refresh(): Single<PricePrediction> {
+        val makeId = appStorage.makeId ?: return Single.error(Throwable())
+        return predictService.getPrice(makeId = makeId,
+            year = appStorage.year ?: defaultYear,
+            modelId = appStorage.modelId,
+            subModelId = appStorage.subModelId)
     }
 
-    override fun observeModel(): Observable<Model> {
-        val modelId = appStorage.modelId ?: return Observable.just(EmptyModel)
-        return modelDao.getModel(modelId)
-            .flatMapObservable { modelDao.observeModel(modelId) }
-            .switchIfEmpty(Observable.just(EmptyModel))
-            .subscribeOn(RxSchedulers.computation)
+    override fun observePriceView(): Observable<PriceView> {
+        val makeId = appStorage.makeId ?: return Observable.just(EmptyPriceView)
+        val query = PriceView.getQuery(makeId, appStorage.modelId, appStorage.subModelId)
+        return priceDao.observePriceView(query)
     }
 
-    override fun observeSubModel(): Observable<SubModel> {
-        val subModelId = appStorage.subModelId ?: return Observable.just(EmptySubModel)
-        return subModelDao.getSubModel(subModelId)
-            .flatMapObservable { subModelDao.observeSubModel(subModelId) }
-            .switchIfEmpty(Observable.just(EmptySubModel))
-            .subscribeOn(RxSchedulers.computation)
+    override fun observeSelectionChanged(): Observable<Unit> {
+        return changedSubject.hide()
     }
 
-    override fun saveSelection(makeId: String?, modelId: String?, subModelId: String?) {
-        appStorage.makeId = makeId
-        appStorage.modelId = modelId
-        appStorage.subModelId = subModelId
+    override fun selectCarData(makeId: String?, modelId: String?, subModelId: String?) {
+        if (appStorage.makeId != makeId
+            || appStorage.modelId != modelId
+            || appStorage.subModelId != subModelId) {
+            appStorage.makeId = makeId
+            appStorage.modelId = modelId
+            appStorage.subModelId = subModelId
+            changedSubject.accept(Unit)
+        }
+    }
+
+    override fun selectCarYear(year: Int?) {
+        if (appStorage.year != year) {
+            appStorage.year = year
+            changedSubject.accept(Unit)
+        }
     }
 
     override fun reset() {

@@ -15,3 +15,8 @@ data class PricePrediction(
     @SerialName("result")
     val result: Int
 )
+
+val EmptyPricePrediction = PricePrediction(currency = "", result = 0)
+
+val PricePrediction.isEmpty
+    get() = this === EmptyPricePrediction

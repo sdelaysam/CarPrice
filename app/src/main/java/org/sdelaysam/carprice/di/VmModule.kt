@@ -7,6 +7,7 @@ import org.sdelaysam.carprice.ui.model.ModelListViewModel
 import org.sdelaysam.carprice.ui.price.PriceViewModel
 import org.sdelaysam.carprice.ui.splash.SplashViewModel
 import org.sdelaysam.carprice.ui.submodel.SubModelListViewModel
+import org.sdelaysam.carprice.ui.year.YearListViewModel
 
 /**
  * Created on 6/21/20.
@@ -29,6 +30,9 @@ val vmModule = module {
         val makeId = it.get<String>(0)
         val modelId = it.get<String>(1)
         SubModelListViewModel(makeId, modelId, get(), get(), get())
+    }
+    viewModel {
+        YearListViewModel(get(), get())
     }
     viewModel {
         PriceViewModel(get(), get(), get())

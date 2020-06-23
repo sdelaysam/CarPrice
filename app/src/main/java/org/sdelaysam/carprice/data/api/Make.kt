@@ -34,7 +34,4 @@ data class Make(
     val updatedAt: DateTime? = null
 )
 
-val EmptyMake = Make(id = "_", name = "_", active = false)
-
-val Make.isEmpty: Boolean
-    get() = this === EmptyMake
+val defaultYear: Int = DateTime.now().year
